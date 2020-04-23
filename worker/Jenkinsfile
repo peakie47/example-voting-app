@@ -17,13 +17,11 @@ pipeline {
       stage('Test') {
          steps {
             echo 'Running unit tests on worker app'
-            sleep 9
          }
       }
       stage('Package') {
          steps {
             echo 'Packaging worker app'
-            sleep 5
          }
       }
     }
