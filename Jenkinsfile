@@ -3,7 +3,7 @@ pipeline {
     
     // Worker start
     stages {
-        stage('Build') {
+        stage('BuildWorker') {
             agent {
                 docker {
                     image 'maven:alpine'
@@ -20,7 +20,7 @@ pipeline {
                 }
             }
         }
-        stage('Test') {
+        stage('TestWorker') {
             agent {
                 docker {
                     image 'maven:alpine'
@@ -38,7 +38,7 @@ pipeline {
             }
         }
 
-        stage('Package') {
+        stage('PackageWorker') {
             agent {
                 docker {
                     image 'maven:alpine'
@@ -58,7 +58,7 @@ pipeline {
             }
         }
 
-        stage('docker-package') {
+        stage('docker-packageWorker') {
             agent any
             when {
                 branch 'master'
@@ -78,7 +78,7 @@ pipeline {
         // Worker end
 
         // Result start
-        stage('Build') {
+        stage('BuildResult') {
             agent {
                 docker{
                     image 'node:8.16.0-alpine'
@@ -94,7 +94,7 @@ pipeline {
                 }
             }
         }
-        stage('Test') {
+        stage('TestResult') {
             agent {
                 docker{
                     image 'node:8.16.0-alpine'
@@ -112,7 +112,7 @@ pipeline {
             }
         }
 
-        stage('docker-package') {
+        stage('docker-packageResult') {
             agent any
             when {
                 branch 'master'
@@ -133,7 +133,7 @@ pipeline {
 
 
         // Vote start
-        stage('Build') {
+        stage('BuildVote') {
             agent {
                 docker{
                     image 'python:2.7.16-slim'
@@ -150,7 +150,7 @@ pipeline {
                 }
             }
         }
-        stage('Test') {
+        stage('TestVote') {
             agent {
                 docker{
                     image 'python:2.7.16-slim'
@@ -169,7 +169,7 @@ pipeline {
             }
         }
 
-        stage('docker-package') {
+        stage('docker-packageVote') {
             agent any
             when {
                 branch 'master'
@@ -220,6 +220,5 @@ pipeline {
             slackSend (channel: "instavote-cd", message: "Build Succeeded - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)")
         }
     }
-
 }
 
