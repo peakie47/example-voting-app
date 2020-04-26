@@ -199,7 +199,6 @@ pipeline {
         success {
             slackSend (channel: "instavote-cd", message: "Build Succeeded - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)")
         }
-    }
 
         always {
             echo 'Build pipeline for result app is complete'
