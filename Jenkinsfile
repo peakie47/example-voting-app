@@ -75,23 +75,9 @@ pipeline {
                 }
             }
         }
-    }
-    
-    post {
-        always {
-            echo 'Build pipeline for worker is complete'
-        }
-        failure {
-            slackSend (channel: "instavote-cd", message: "Build Failed - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)")
-        }
-        success {
-            slackSend (channel: "instavote-cd", message: "Build Succeeded - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)")
-        }
-    }
-    // Worker end
+        // Worker end
 
-    // Result start
-    stages {
+        // Result start
         stage('Build') {
             agent {
                 docker{
@@ -143,24 +129,10 @@ pipeline {
                 }
             }
         }
-    }
-
-    post {
-        always {
-            echo 'Build pipeline for result app is complete'
-        }
-        failure {
-            slackSend (channel: "instavote-cd", message: "Build Failed - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)")
-        }
-        success {
-            slackSend (channel: "instavote-cd", message: "Build Succeeded - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)")
-        }
-    }
-    // Result end
+        // Result end
 
 
-    // Vote start
-    stages {
+        // Vote start
         stage('Build') {
             agent {
                 docker{
@@ -214,9 +186,31 @@ pipeline {
                 }
             }
         }
+        // Vote end
     }
 
     post {
+        always {
+            echo 'Build pipeline for worker is complete'
+        }
+        failure {
+            slackSend (channel: "instavote-cd", message: "Build Failed - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)")
+        }
+        success {
+            slackSend (channel: "instavote-cd", message: "Build Succeeded - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)")
+        }
+    }
+
+        always {
+            echo 'Build pipeline for result app is complete'
+        }
+        failure {
+            slackSend (channel: "instavote-cd", message: "Build Failed - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)")
+        }
+        success {
+            slackSend (channel: "instavote-cd", message: "Build Succeeded - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)")
+        }
+
         always {
             echo 'Build pipeline for vote app is complete'
         }
@@ -226,8 +220,6 @@ pipeline {
         success {
             slackSend (channel: "instavote-cd", message: "Build Succeeded - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)")
         }
-    }
-    // Vote end
 
 }
 
