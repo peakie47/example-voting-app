@@ -1,7 +1,7 @@
 pipeline {
     agent none
     
-    # Worker start
+    // Worker start
     stages {
         stage('Build') {
             agent {
@@ -88,9 +88,9 @@ pipeline {
             slackSend (channel: "instavote-cd", message: "Build Succeeded - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)")
         }
     }
-    # Worker end
+    // Worker end
 
-    # Result start
+    // Result start
     stages {
         stage('Build') {
             agent {
@@ -156,10 +156,10 @@ pipeline {
             slackSend (channel: "instavote-cd", message: "Build Succeeded - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)")
         }
     }
-    # Result end
+    // Result end
 
 
-    # Vote start
+    // Vote start
     stages {
         stage('Build') {
             agent {
@@ -227,7 +227,7 @@ pipeline {
             slackSend (channel: "instavote-cd", message: "Build Succeeded - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)")
         }
     }
-    # Vote end
+    // Vote end
 
 }
 
