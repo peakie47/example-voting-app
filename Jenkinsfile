@@ -187,6 +187,19 @@ pipeline {
             }
         }
         // Vote end
+
+        // Start deploy to dev
+        stage('DeployDev') {
+            agent any
+            when {
+                branch 'master'
+            }
+            steps {
+                echo 'Deploy instavote app with docker compose'
+                sh 'docker compose up -d'
+            }
+        }
+        // End deploy to dev
     }
 
     post {
