@@ -197,7 +197,7 @@ pipeline {
             steps {
                 echo 'Running Sonarqube Analysis..'
                 withSonarQubeEnv('sonar') {
-                    "${sonarpath}/bin/sonar-scanner -Dproject.settings=sonar-project.properties"
+                    sh "${sonarpath}/bin/sonar-scanner -Dproject.settings=sonar-project.properties"
                 }
             }
         }
