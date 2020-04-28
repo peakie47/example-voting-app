@@ -169,6 +169,21 @@ pipeline {
             }
         }
 
+        stage('VoteIntegration') {
+            agent any
+            when {
+                branch 'master'
+                changeset "**/vote/**"
+            }
+            steps {
+                echo 'Running integration tests on vote app'
+                dir('vote'){
+                    sh 'integration_test.sh'
+                }
+            }
+        }
+
+
         stage('docker-packageVote') {
             agent any
             when {
@@ -221,22 +236,5 @@ pipeline {
         // End deploy to dev
     }
 
-    post {
-        always {
-            echo 'Build pipeline for worker is complete'
-            echo 'Build pipeline for result app is complete'
-            echo 'Build pipeline for vote app is complete'
-        }
-        failure {
-            slackSend (channel: "instavote-cd", message: "Build Failed - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)")
-            slackSend (channel: "instavote-cd", message: "Build Failed - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)")
-            slackSend (channel: "instavote-cd", message: "Build Failed - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)")
-        }
-        success {
-            slackSend (channel: "instavote-cd", message: "Build Succeeded - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)")
-            slackSend (channel: "instavote-cd", message: "Build Succeeded - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)")
-            slackSend (channel: "instavote-cd", message: "Build Succeeded - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)")
-        }
-    }
 }
 
